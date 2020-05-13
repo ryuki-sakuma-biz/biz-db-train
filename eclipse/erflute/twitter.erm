@@ -110,12 +110,12 @@
 			<physical_name>ACCOUNTS</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
 			<description></description>
-			<height>75</height>
-			<width>120</width>
+			<height>174</height>
+			<width>176</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>384</x>
-			<y>391</y>
+			<x>494</x>
+			<y>337</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -178,15 +178,15 @@
 			</table_properties>
 		</table>
 		<table>
-			<physical_name>SAMPLE</physical_name>
-			<logical_name>サンプルのテーブル</logical_name>
-			<description>this is sample table.</description>
-			<height>84</height>
-			<width>146</width>
+			<physical_name>TWEET_IMAGES</physical_name>
+			<logical_name>TWEET_IMAGES</logical_name>
+			<description></description>
+			<height>102</height>
+			<width>143</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>392</x>
-			<y>183</y>
+			<x>318</x>
+			<y>785</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -196,13 +196,84 @@
 			</connections>
 			<columns>
 				<normal_column>
-					<physical_name>SAMPLE_ID</physical_name>
+					<physical_name>id</physical_name>
 					<type>bigint</type>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
-				<column_group>AUDIT</column_group>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<type>bigint</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>image_path</physical_name>
+					<type>text</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>seq</physical_name>
+					<type>integer</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>TWIEETS</physical_name>
+			<logical_name>TWIEETS</logical_name>
+			<description></description>
+			<height>120</height>
+			<width>169</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>114</x>
+			<y>792</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>Body</physical_name>
+					<type>text</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>device_type</physical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
 			</columns>
 			<indexes>
 			</indexes>
@@ -238,13 +309,6 @@
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
-					<physical_name>name</physical_name>
-					<logical_name>ユーザ名</logical_name>
-					<type>varchar(n)</type>
-					<length>30</length>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
 					<physical_name>email</physical_name>
 					<type>varchar(n)</type>
 					<length>255</length>
@@ -271,11 +335,6 @@
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
-				<normal_column>
-					<physical_name>sign_in_at</physical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
 			</columns>
 			<indexes>
 			</indexes>
@@ -285,15 +344,15 @@
 			</table_properties>
 		</table>
 		<table>
-			<physical_name>USER_ACCOUNT</physical_name>
+			<physical_name>USER_ACCOUNTS</physical_name>
 			<logical_name>USER_ACCOUNT</logical_name>
 			<description></description>
-			<height>75</height>
-			<width>120</width>
+			<height>138</height>
+			<width>157</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>290</x>
-			<y>669</y>
+			<x>289</x>
+			<y>341</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -314,13 +373,260 @@
 					<physical_name>user_id</physical_name>
 					<type>bigint</type>
 					<not_null>true</not_null>
-					<unique_key>true</unique_key>
 				</normal_column>
 				<normal_column>
 					<physical_name>account_id</physical_name>
 					<type>bigint</type>
 					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>update_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>create_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>sign_in_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>USER_TWEETS</physical_name>
+			<logical_name>USER_TWEETS</logical_name>
+			<description></description>
+			<height>84</height>
+			<width>169</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>283</x>
+			<y>592</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
 					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>user_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>tweet_likes</physical_name>
+			<logical_name>NEW_TABLE</logical_name>
+			<description></description>
+			<height>120</height>
+			<width>192</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>496</x>
+			<y>779</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>liked_user_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>tweet_replies</physical_name>
+			<logical_name>NEW_TABLE</logical_name>
+			<description></description>
+			<height>156</height>
+			<width>193</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>785</x>
+			<y>729</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>reply_user_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>seq</physical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>reply_parent_id</physical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>user_retweets</physical_name>
+			<logical_name>NEW_TABLE</logical_name>
+			<description></description>
+			<height>138</height>
+			<width>181</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>96</x>
+			<y>557</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>user_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>retweet_id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>body</physical_name>
+					<type>text</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
 				</normal_column>
 			</columns>
 			<indexes>
