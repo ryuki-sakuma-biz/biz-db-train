@@ -107,6 +107,77 @@
 	</tablespace_set>
 	<diagram_walkers>
 		<table>
+			<physical_name>ACCOUNTS</physical_name>
+			<logical_name>NEW_TABLE</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>384</x>
+			<y>391</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>name</physical_name>
+					<type>varchar(n)</type>
+					<length>30</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>display_id</physical_name>
+					<type>varchar(n)</type>
+					<length>255</length>
+					<not_null>true</not_null>
+					<unique_key>true</unique_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>web_site_url</physical_name>
+					<type>text</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>description</physical_name>
+					<type>text</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>icon_path</physical_name>
+					<type>text</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>SAMPLE</physical_name>
 			<logical_name>サンプルのテーブル</logical_name>
 			<description>this is sample table.</description>
@@ -141,7 +212,7 @@
 			</table_properties>
 		</table>
 		<table>
-			<physical_name>USER</physical_name>
+			<physical_name>USERS</physical_name>
 			<logical_name>ユーザターブル</logical_name>
 			<description></description>
 			<height>75</height>
@@ -174,14 +245,6 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
-					<physical_name>acccount_name</physical_name>
-					<type>varchar(n)</type>
-					<length>255</length>
-					<description>@の後につける名前</description>
-					<not_null>true</not_null>
-					<unique_key>true</unique_key>
-				</normal_column>
-				<normal_column>
 					<physical_name>email</physical_name>
 					<type>varchar(n)</type>
 					<length>255</length>
@@ -212,6 +275,52 @@
 					<physical_name>sign_in_at</physical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>USER_ACCOUNT</physical_name>
+			<logical_name>USER_ACCOUNT</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>290</x>
+			<y>669</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<unique_key>true</unique_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>user_id</physical_name>
+					<type>bigint</type>
+					<not_null>true</not_null>
+					<unique_key>true</unique_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>account_id</physical_name>
+					<type>bigint</type>
+					<not_null>true</not_null>
+					<unique_key>true</unique_key>
 				</normal_column>
 			</columns>
 			<indexes>
