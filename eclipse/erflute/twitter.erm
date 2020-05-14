@@ -209,7 +209,7 @@
 		</table>
 		<table>
 			<physical_name>TWEETS</physical_name>
-			<logical_name>TWIEETS</logical_name>
+			<logical_name>ツイートテーブル</logical_name>
 			<description>ツイートを管理するテーブル</description>
 			<height>120</height>
 			<width>169</width>
@@ -257,7 +257,7 @@
 		</table>
 		<table>
 			<physical_name>TWEET_IMAGES</physical_name>
-			<logical_name>TWEET_IMAGES</logical_name>
+			<logical_name>画像のツイート管理テーブル</logical_name>
 			<description>ツイートに対して投稿された画像のパスを紐づけるテーブル&#x0A;seqでシーケンス番号(順番)を管理している</description>
 			<height>138</height>
 			<width>169</width>
@@ -325,7 +325,7 @@
 		</table>
 		<table>
 			<physical_name>TWEET_LIKES</physical_name>
-			<logical_name>NEW_TABLE</logical_name>
+			<logical_name>ツイートへのいいね管理テーブル</logical_name>
 			<description>ユーザがどのツイートにいいねしたかを管理するテーブル</description>
 			<height>120</height>
 			<width>192</width>
@@ -416,7 +416,7 @@
 		</table>
 		<table>
 			<physical_name>TWEET_REPLIES</physical_name>
-			<logical_name>TWEET_REPLIES</logical_name>
+			<logical_name>ツイートへの返信管理テーブル</logical_name>
 			<description>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル&#x0A;typeとreply_parent_idで返信先が決まる&#x0A;reply_parent_idのdescに例がある</description>
 			<height>174</height>
 			<width>193</width>
@@ -566,15 +566,6 @@
 				</normal_column>
 			</columns>
 			<indexes>
-				<index>
-					<name>UQ_USERS_TOKEN</name>
-					<type></type>
-					<columns>
-						<column>
-							<column_id>table.USERS.token</column_id>
-						</column>
-					</columns>
-				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -796,7 +787,7 @@
 		</table>
 		<table>
 			<physical_name>USER_RETWEETS</physical_name>
-			<logical_name>USER_RETWEETS</logical_name>
+			<logical_name>リツート管理テーブル</logical_name>
 			<description>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</description>
 			<height>138</height>
 			<width>181</width>
@@ -893,7 +884,7 @@
 		</table>
 		<table>
 			<physical_name>USER_TWEETS</physical_name>
-			<logical_name>USER_TWEETS</logical_name>
+			<logical_name>ユーザとツイートの関連テーブル</logical_name>
 			<description>どのユーザがどのツイートをしたのかを管理するテーブル&#x0A;USERとTWEETSの中間テーブル</description>
 			<height>120</height>
 			<width>169</width>
