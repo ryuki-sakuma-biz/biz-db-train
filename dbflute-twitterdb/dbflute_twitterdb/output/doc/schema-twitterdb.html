@@ -506,10 +506,66 @@ And after that, execute renewal (or regenerate) again.
 (tips: The schema policy is on schemaPolicyMap.dfprop)
 
 [Violation]
+whole.theme: sameColumnAliasIfSameColumnName
+ +-The column alias should be same if column name is same: USER_ACCOUNTS.USER_ID=ユーザID, USER_FOLLOWS.USER_ID=被フォローユーザID
+
+whole.theme: sameColumnDbTypeIfSameColumnName
+ +-The column db-type should be same if column name is same: ACCOUNTS.ID=BIGINT UNSIGNED, TWEET_IMAGES.ID=BIGINT
+
+whole.theme: sameColumnSizeIfSameColumnName
+ +-The column size should be same if column name is same: ACCOUNTS.ID=20, TWEET_IMAGES.ID=19
+
+column.statement: if columnName is suffix:_ID then dbType is bigint or int
+ |-but VARCHAR: (アカウントテーブル.ディスプレイID)ACCOUNTS.DISPLAY_ID VARCHAR(255) (NotNull) // @の後に続くアカウン...
+ |-but BIGINT UNSIGNED: (TWEET_IMAGES)TWEET_IMAGES.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // 画像が紐づくツイート...
+ |-but BIGINT UNSIGNED: (NEW_TABLE)TWEET_LIKES.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // いいねされたツイート...
+ |-but BIGINT UNSIGNED: (NEW_TABLE.ユーザID)TWEET_LIKES.LIKED_USER_ID BIGINT UNSIGNED(20) (NotNull) // ツイートにいいねした...
+ |-but BIGINT UNSIGNED: (TWEET_REPLIES.ユーザID)TWEET_REPLIES.REPLY_USER_ID BIGINT UNSIGNED(20) (NotNull) // ツイートに返信したユ...
+ |-but INT UNSIGNED: (TWEET_REPLIES)TWEET_REPLIES.REPLY_PARENT_ID INT UNSIGNED(10) (NotNull) // 返信したツイートのi...
+ |-but BIGINT UNSIGNED: (ユーザとアカウント関連テーブル.ユーザID)USER_ACCOUNTS.USER_ID BIGINT UNSIGNED(20) (NotNull) // アカウントを所有して...
+ |-but BIGINT UNSIGNED: (ユーザとアカウント関連テーブル.所持アカウントID)USER_ACCOUNTS.ACCOUNT_ID BIGINT UNSIGNED(20) (NotNull) // ユーザの所有している...
+ |-but BIGINT UNSIGNED: (フォロー関係テーブル.被フォローユーザID)USER_FOLLOWS.USER_ID BIGINT UNSIGNED(20) (NotNull) // フォローしたユーザの...
+ |-but BIGINT UNSIGNED: (フォロー関係テーブル.フォローユーザID)USER_FOLLOWS.FOLLOWING_USER_ID BIGINT UNSIGNED(20) (NotNull) // フォローされたユーザ...
+ |-but BIGINT UNSIGNED: (USER_RETWEETS.ユーザID)USER_RETWEETS.USER_ID BIGINT UNSIGNED(20) (NotNull) // リツイートしたユーザ...
+ |-but BIGINT UNSIGNED: (USER_RETWEETS)USER_RETWEETS.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // リツイートしたtwe...
+ |-but BIGINT UNSIGNED: (USER_TWEETS.ユーザID)USER_TWEETS.USER_ID BIGINT UNSIGNED(20) (NotNull) // ツイートしたユーザの...
+ +-but BIGINT UNSIGNED: (USER_TWEETS)USER_TWEETS.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // ユーザがツイートした...
+
 column.theme: hasAlias
- |-The column should have column alias: (サンプルのテーブル)SAMPLE.SAMPLE_ID BIGINT(19) (NotNull)
- |-The column should have column alias: (サンプルのテーブル)SAMPLE.CREATED_AT DATETIME(19) (NotNull)
- +-The column should have column alias: (サンプルのテーブル)SAMPLE.UPDATED_AT DATETIME(19) (NotNull)
+ |-The column should have column alias: (TWIEETS)TWEETS.ID BIGINT UNSIGNED(20) (NotNull)
+ |-The column should have column alias: (TWIEETS)TWEETS.BODY TEXT(65535) (NotNull) // ツイートの文章
+ |-The column should have column alias: (TWIEETS)TWEETS.DEVICE_TYPE INT UNSIGNED(10) (NotNull) // ツイートしたデバイス...
+ |-The column should have column alias: (TWEET_IMAGES)TWEET_IMAGES.ID BIGINT(19) (NotNull)
+ |-The column should have column alias: (TWEET_IMAGES)TWEET_IMAGES.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // 画像が紐づくツイート...
+ |-The column should have column alias: (TWEET_IMAGES)TWEET_IMAGES.IMAGE_PATH TEXT(65535) (NotNull) // ツイートに紐づく画像...
+ |-The column should have column alias: (TWEET_IMAGES)TWEET_IMAGES.SEQ INT(10) (NotNull) // ツイートに載せる画像...
+ |-The column should have column alias: (NEW_TABLE)TWEET_LIKES.ID BIGINT UNSIGNED(20) (NotNull)
+ |-The column should have column alias: (NEW_TABLE)TWEET_LIKES.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // いいねされたツイート...
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.ID BIGINT UNSIGNED(20) (NotNull)
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.SEQ INT UNSIGNED(10) (NotNull) // 返信の順番
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.REPLY_PARENT_ID INT UNSIGNED(10) (NotNull) // 返信したツイートのi...
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.TYPE INT UNSIGNED(10) (NotNull) // 返信したスレッドのタ...
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.CREATED_AT DATETIME(19) (NotNull)
+ |-The column should have column alias: (TWEET_REPLIES)TWEET_REPLIES.UPDATED_AT DATETIME(19) (NotNull)
+ |-The column should have column alias: (USER_RETWEETS)USER_RETWEETS.ID BIGINT UNSIGNED(20) (NotNull) // ユーザのid
+ |-The column should have column alias: (USER_RETWEETS)USER_RETWEETS.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // リツイートしたtwe...
+ |-The column should have column alias: (USER_RETWEETS)USER_RETWEETS.BODY TEXT(65535) (NullAllowed) // リツイートする際の文...
+ |-The column should have column alias: (USER_TWEETS)USER_TWEETS.ID BIGINT UNSIGNED(20) (NotNull)
+ |-The column should have column alias: (USER_TWEETS)USER_TWEETS.TWEET_ID BIGINT UNSIGNED(20) (NotNull) // ユーザがツイートした...
+ |-The column should have column alias: (USER_TWEETS)USER_TWEETS.UPDATED_AT DATETIME(19) (NotNull)
+ +-The column should have column alias: (USER_TWEETS)USER_TWEETS.CREATED_AT DATETIME(19) (NotNull)
+
+table.theme: hasCommonColumn
+ +-The table should have common columns: (ユーザとアカウント関連テーブル)USER_ACCOUNTS // ユーザとアカウントの...
+
+table.statement: if tableName is $$ALL$$ then fkName is prefix:FK_$$table$$
+ +-but FK_USER_RETWEET_TWIEETS: (USER_RETWEETS)USER_RETWEETS // ユーザがどのツイート...
+
+table.statement: if tableName is $$ALL$$ then indexName is prefix:IX_$$table$$ or prefix:FK_$$table$$
+ +-but FK_USER_RETWEET_TWIEETS: (USER_RETWEETS)USER_RETWEETS // ユーザがどのツイート...
+
+table.statement: if tableName is $$ALL$$ then uniqueName is prefix:UQ_$$table$$
+ +-but UQ_USER_RETWEET_USER_ID_RETWEET_ID: (USER_RETWEETS)USER_RETWEETS // ユーザがどのツイート...
 * * * * * * * * * */
 </pre>
 
@@ -536,24 +592,127 @@ column.theme: hasAlias
 	<tbody id="table-list-body">
 	<tr>
 		<td class="rownumcell">1</td>
-		<td class="aliascell">サンプルのテーブル</td>
-		<td class="namecell" data-name="SAMPLE"><a href="#sample" title="type=TABLE, primaryKey={SAMPLE_ID}, nameLength=6, columnCount=3">SAMPLE</a></td>
+		<td class="aliascell">アカウントテーブル</td>
+		<td class="namecell" data-name="ACCOUNTS"><a href="#accounts" title="type=TABLE, primaryKey={ID}, nameLength=8, columnCount=8">ACCOUNTS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#user_accounts" title="FK_USER_ACCOUNTS_ACCOUNTS">USER_ACCOUNTS</a></td>
+		<td class="commentcell ACCOUNTS_comment"><pre>アカウントを管理するテーブル</pre></td>
+		<td class="subcell">Accounts</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="aliascell">TWIEETS</td>
+		<td class="namecell" data-name="TWEETS"><a href="#tweets" title="type=TABLE, primaryKey={ID}, nameLength=6, columnCount=5">TWEETS</a></td>
+		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell SAMPLE_comment"><pre>this is sample table.</pre></td>
-		<td class="subcell">Sample</td>
-		<td class="subcell">2020/04/16</td>
+		<td class="relcell"><a href="#tweet_images" title="FK_TWEET_IMAGES_TWIEETS">TWEET_IMAGES</a>, <a href="#tweet_likes" title="FK_TWEET_LIKES_TWIEETS">TWEET_LIKES</a>, <a href="#user_retweets" title="FK_USER_RETWEET_TWIEETS">USER_RETWEETS</a>, <a href="#user_tweets" title="FK_USER_TWEETS_TWIEETS">USER_TWEETS</a></td>
+		<td class="commentcell TWEETS_comment"><pre>ツイートを管理するテーブル</pre></td>
+		<td class="subcell">Tweets</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="aliascell">TWEET_IMAGES</td>
+		<td class="namecell" data-name="TWEET_IMAGES"><a href="#tweet_images" title="type=TABLE, primaryKey={ID}, nameLength=12, columnCount=6">TWEET_IMAGES</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#tweets" title="FK_TWEET_IMAGES_TWIEETS">TWEETS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell TWEET_IMAGES_comment"><pre>ツイートに対して投稿された画像のパスを紐づけるテーブル
+seqでシーケンス番号(順番)を管理している</pre></td>
+		<td class="subcell">TweetImages</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="aliascell">NEW_TABLE</td>
+		<td class="namecell" data-name="TWEET_LIKES"><a href="#tweet_likes" title="type=TABLE, primaryKey={ID}, nameLength=11, columnCount=5">TWEET_LIKES</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#users" title="FK_TWEET_LIKES_USERS">USERS</a>, <a href="#tweets" title="FK_TWEET_LIKES_TWIEETS">TWEETS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell TWEET_LIKES_comment"><pre>ユーザがどのツイートにいいねしたかを管理するテーブル</pre></td>
+		<td class="subcell">TweetLikes</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="aliascell">TWEET_REPLIES</td>
+		<td class="namecell" data-name="TWEET_REPLIES"><a href="#tweet_replies" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=7">TWEET_REPLIES</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#users" title="FK_TWEET_REPLIES_USERS">USERS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell TWEET_REPLIES_comment"><pre>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル
+typeとreply_parent_idで返信先が決まる
+reply_parent_idのdescに例がある</pre></td>
+		<td class="subcell">TweetReplies</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="aliascell">ユーザテーブル</td>
+		<td class="namecell" data-name="USERS"><a href="#users" title="type=TABLE, primaryKey={ID}, nameLength=5, columnCount=6">USERS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#tweet_likes" title="FK_TWEET_LIKES_USERS">TWEET_LIKES</a>, <a href="#tweet_replies" title="FK_TWEET_REPLIES_USERS">TWEET_REPLIES</a>, <a href="#user_accounts" title="FK_USER_ACCOUNTS_USERS">USER_ACCOUNTS</a>, <a href="#user_follows" title="FK_USER_FOLLOWS_USERS_FOLLOWING">USER_FOLLOWS</a>, <a href="#user_follows" title="FK_USER_FOLLOWS_USERS">USER_FOLLOWS</a>, <a href="#user_retweets" title="FK_USER_RETWEET_USERS">USER_RETWEETS</a>, <a href="#user_tweets" title="FK_USER_TWEETS_USERS">USER_TWEETS</a></td>
+		<td class="commentcell USERS_comment"><pre>ユーザを管理するテーブル</pre></td>
+		<td class="subcell">Users</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="aliascell">ユーザとアカウント関連テーブル</td>
+		<td class="namecell" data-name="USER_ACCOUNTS"><a href="#user_accounts" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=6">USER_ACCOUNTS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#accounts" title="FK_USER_ACCOUNTS_ACCOUNTS">ACCOUNTS</a>, <a href="#users" title="FK_USER_ACCOUNTS_USERS">USERS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell USER_ACCOUNTS_comment"><pre>ユーザとアカウントの関連テーブル</pre></td>
+		<td class="subcell">UserAccounts</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="aliascell">フォロー関係テーブル</td>
+		<td class="namecell" data-name="USER_FOLLOWS"><a href="#user_follows" title="type=TABLE, primaryKey={ID}, nameLength=12, columnCount=5">USER_FOLLOWS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#users" title="FK_USER_FOLLOWS_USERS_FOLLOWING">USERS</a>, <a href="#users" title="FK_USER_FOLLOWS_USERS">USERS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell USER_FOLLOWS_comment"><pre>フォローフォロワー関係を管理するテーブル</pre></td>
+		<td class="subcell">UserFollows</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">9</td>
+		<td class="aliascell">USER_RETWEETS</td>
+		<td class="namecell" data-name="USER_RETWEETS"><a href="#user_retweets" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=6">USER_RETWEETS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#tweets" title="FK_USER_RETWEET_TWIEETS">TWEETS</a>, <a href="#users" title="FK_USER_RETWEET_USERS">USERS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell USER_RETWEETS_comment"><pre>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</pre></td>
+		<td class="subcell">UserRetweets</td>
+		<td class="subcell">2020/05/14</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">10</td>
+		<td class="aliascell">USER_TWEETS</td>
+		<td class="namecell" data-name="USER_TWEETS"><a href="#user_tweets" title="type=TABLE, primaryKey={ID}, nameLength=11, columnCount=5">USER_TWEETS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#tweets" title="FK_USER_TWEETS_TWIEETS">TWEETS</a>, <a href="#users" title="FK_USER_TWEETS_USERS">USERS</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell USER_TWEETS_comment"><pre>どのユーザがどのツイートをしたのかを管理するテーブル
+USERとTWEETSの中間テーブル</pre></td>
+		<td class="subcell">UserTweets</td>
+		<td class="subcell">2020/05/14</td>
 	</tr>
 	</tbody>
 </table>
 
-<h2 id="sample" title="type=TABLE, primaryKey={SAMPLE_ID}, nameLength=6, columnCount=3">
-(サンプルのテーブル)SAMPLE
-&nbsp;<span class="tablefirstdatetitle">since 2020/04/16</span>
+<h2 id="accounts" title="type=TABLE, primaryKey={ID}, nameLength=8, columnCount=8">
+(アカウントテーブル)ACCOUNTS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
 </h2>
-<div class="tablecomment SAMPLE_comment" data-name="SAMPLE"><pre>this is sample table.</pre></div>
-<input type="hidden" value="SAMPLE">
+<div class="tablecomment ACCOUNTS_comment" data-name="ACCOUNTS"><pre>アカウントを管理するテーブル</pre></div>
+<input type="hidden" value="ACCOUNTS">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -576,7 +735,7 @@ column.theme: hasAlias
 		<th>Since</th>
 	</tr>
 	</thead>
-	<tbody id="sample-body">
+	<tbody id="accounts-body">
 	<tr>
 		<td class="rownumcell">1</td>
 		<td class="flgcell" title="PRIMARY">o</td>
@@ -584,15 +743,15 @@ column.theme: hasAlias
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
-		<td class="aliascell"></td>
-		<td class=" columnnamecell" id="sample_sample_id">SAMPLE_ID</td>
-		<td class="typecell">BIGINT</td>
-		<td class="sizecell"> 19 </td>
+		<td class="aliascell">アカウントID</td>
+		<td class=" columnnamecell" id="accounts_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#user_accounts" title="FK_USER_ACCOUNTS_ACCOUNTS">USER_ACCOUNTS</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>&nbsp;</pre></td>
-		<td class="subcell">sampleId</td>
+		<td class="commentcell"><pre>アカウントのid</pre></td>
+		<td class="subcell">id</td>
 		<td class="subcell">Long</td>
 		<td class="subcell">first</td>
 	</tr>
@@ -603,8 +762,104 @@ column.theme: hasAlias
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
-		<td class="aliascell comcolcell"></td>
-		<td class="comcolcell columnnamecell" id="sample_created_at">CREATED_AT</td>
+		<td class="aliascell">アカウント名</td>
+		<td class=" columnnamecell" id="accounts_name">NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 30 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>アカウント名</pre></td>
+		<td class="subcell">name</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_ACCOUNTS_DISPLAY_ID(DISPLAY_ID)">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ディスプレイID</td>
+		<td class=" columnnamecell" id="accounts_display_id">DISPLAY_ID</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 255 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>@の後に続くアカウントのid
+検索等に使われる</pre></td>
+		<td class="subcell">displayId</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="aliascell">ウェブサイトURL</td>
+		<td class=" columnnamecell" id="accounts_web_site_url">WEB_SITE_URL</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ウロフィールに載せるwebのurl</pre></td>
+		<td class="subcell">webSiteUrl</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="aliascell">プロフィール文</td>
+		<td class=" columnnamecell" id="accounts_description">DESCRIPTION</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>プロフィールに載せる文章</pre></td>
+		<td class="subcell">description</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">アイコンURL</td>
+		<td class=" columnnamecell" id="accounts_icon_path">ICON_PATH</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのアイコンのパス</pre></td>
+		<td class="subcell">iconPath</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成された時間</td>
+		<td class="comcolcell columnnamecell" id="accounts_created_at">CREATED_AT</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
@@ -613,17 +868,17 @@ column.theme: hasAlias
 		<td class="commentcell"><pre>&nbsp;</pre></td>
 		<td class="subcell">createdAt</td>
 		<td class="subcell">LocalDateTime</td>
-		<td class="subcell">2020/04/16</td>
+		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">3</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
-		<td class="aliascell comcolcell"></td>
-		<td class="comcolcell columnnamecell" id="sample_updated_at">UPDATED_AT</td>
+		<td class="aliascell comcolcell">更新された時間</td>
+		<td class="comcolcell columnnamecell" id="accounts_updated_at">UPDATED_AT</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
@@ -632,7 +887,1282 @@ column.theme: hasAlias
 		<td class="commentcell"><pre>&nbsp;</pre></td>
 		<td class="subcell">updatedAt</td>
 		<td class="subcell">LocalDateTime</td>
-		<td class="subcell">2020/04/16</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="tweets" title="type=TABLE, primaryKey={ID}, nameLength=6, columnCount=5">
+(TWIEETS)TWEETS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment TWEETS_comment" data-name="TWEETS"><pre>ツイートを管理するテーブル</pre></div>
+<input type="hidden" value="TWEETS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="tweets-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweets_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#tweet_images" title="FK_TWEET_IMAGES_TWIEETS">TWEET_IMAGES</a>,<br><a href="#tweet_likes" title="FK_TWEET_LIKES_TWIEETS">TWEET_LIKES</a>,<br><a href="#user_retweets" title="FK_USER_RETWEET_TWIEETS">USER_RETWEETS</a>,<br><a href="#user_tweets" title="FK_USER_TWEETS_TWIEETS">USER_TWEETS</a>&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweets_body">BODY</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートの文章</pre></td>
+		<td class="subcell">body</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweets_device_type">DEVICE_TYPE</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートしたデバイスのタイプ</pre></td>
+		<td class="subcell">deviceType</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成日</td>
+		<td class="comcolcell columnnamecell" id="tweets_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新日</td>
+		<td class="comcolcell columnnamecell" id="tweets_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="tweet_images" title="type=TABLE, primaryKey={ID}, nameLength=12, columnCount=6">
+(TWEET_IMAGES)TWEET_IMAGES
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment TWEET_IMAGES_comment" data-name="TWEET_IMAGES"><pre>ツイートに対して投稿された画像のパスを紐づけるテーブル
+seqでシーケンス番号(順番)を管理している</pre></div>
+<input type="hidden" value="TWEET_IMAGES">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="tweet_images-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_images_id">ID</td>
+		<td class="typecell">BIGINT</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_TWEET_IMAGES_TWIEETS(TWEET_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_images_tweet_id">TWEET_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#tweets" title="FK_TWEET_IMAGES_TWIEETS">TWEETS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>画像が紐づくツイートのid</pre></td>
+		<td class="subcell">tweetId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_images_image_path">IMAGE_PATH</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートに紐づく画像のurl</pre></td>
+		<td class="subcell">imagePath</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_images_seq">SEQ</td>
+		<td class="typecell">INT</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートに載せる画像の順番</pre></td>
+		<td class="subcell">seq</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成日</td>
+		<td class="comcolcell columnnamecell" id="tweet_images_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新日</td>
+		<td class="comcolcell columnnamecell" id="tweet_images_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="tweet_likes" title="type=TABLE, primaryKey={ID}, nameLength=11, columnCount=5">
+(NEW_TABLE)TWEET_LIKES
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment TWEET_LIKES_comment" data-name="TWEET_LIKES"><pre>ユーザがどのツイートにいいねしたかを管理するテーブル</pre></div>
+<input type="hidden" value="TWEET_LIKES">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="tweet_likes-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_likes_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_TWEET_LIKES_TWEET_ID_LIKED_USER_ID(TWEET_ID, LIKED_USER_ID)">o<span class="flgplus">+</span></td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_likes_tweet_id">TWEET_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#tweets" title="FK_TWEET_LIKES_TWIEETS">TWEETS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>いいねされたツイートのid</pre></td>
+		<td class="subcell">tweetId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_TWEET_LIKES_TWEET_ID_LIKED_USER_ID(TWEET_ID, LIKED_USER_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell" title="FK_TWEET_LIKES_USERS(LIKED_USER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="tweet_likes_liked_user_id">LIKED_USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_TWEET_LIKES_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートにいいねしたユーザのid</pre></td>
+		<td class="subcell">likedUserId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成日</td>
+		<td class="comcolcell columnnamecell" id="tweet_likes_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新日</td>
+		<td class="comcolcell columnnamecell" id="tweet_likes_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="tweet_replies" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=7">
+(TWEET_REPLIES)TWEET_REPLIES
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment TWEET_REPLIES_comment" data-name="TWEET_REPLIES"><pre>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル
+typeとreply_parent_idで返信先が決まる
+reply_parent_idのdescに例がある</pre></div>
+<input type="hidden" value="TWEET_REPLIES">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="tweet_replies-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_replies_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_TWEET_REPLIES_USERS(REPLY_USER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="tweet_replies_reply_user_id">REPLY_USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_TWEET_REPLIES_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートに返信したユーザのid</pre></td>
+		<td class="subcell">replyUserId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_replies_seq">SEQ</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>返信の順番</pre></td>
+		<td class="subcell">seq</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_replies_reply_parent_id">REPLY_PARENT_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>返信したツイートのid
+typeと連動している
+例 : 
+type : 1、reply_parent_id  : 1
+tweet_id 1のスレッドに対して返信
+
+type : 2、reply_parent_id  : 1
+retweet_id 1 のスレッドに対しての返信
+
+type : 3、reply_parent_id  : 1
+replies_id 1にたいしての返信
+返信に対しての返信</pre></td>
+		<td class="subcell">replyParentId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="tweet_replies_type">TYPE</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>返信したスレッドのタイプ
+1 → tweet thread
+2 → retweet thread
+3 → reply thread</pre></td>
+		<td class="subcell">type</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell"></td>
+		<td class="comcolcell columnnamecell" id="tweet_replies_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell"></td>
+		<td class="comcolcell columnnamecell" id="tweet_replies_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="users" title="type=TABLE, primaryKey={ID}, nameLength=5, columnCount=6">
+(ユーザテーブル)USERS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment USERS_comment" data-name="USERS"><pre>ユーザを管理するテーブル</pre></div>
+<input type="hidden" value="USERS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="users-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="users_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#tweet_likes" title="FK_TWEET_LIKES_USERS">TWEET_LIKES</a>,<br><a href="#tweet_replies" title="FK_TWEET_REPLIES_USERS">TWEET_REPLIES</a>,<br><a href="#user_accounts" title="FK_USER_ACCOUNTS_USERS">USER_ACCOUNTS</a>,<br><a href="#user_follows" title="FK_USER_FOLLOWS_USERS_FOLLOWING">USER_FOLLOWS</a>,<br><a href="#user_follows" title="FK_USER_FOLLOWS_USERS">USER_FOLLOWS</a>,<br><a href="#user_retweets" title="FK_USER_RETWEET_USERS">USER_RETWEETS</a>,<br><a href="#user_tweets" title="FK_USER_TWEETS_USERS">USER_TWEETS</a>&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのid</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">メールアドレス</td>
+		<td class=" columnnamecell" id="users_email">EMAIL</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 255 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのメールアドレス</pre></td>
+		<td class="subcell">email</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">パスワード</td>
+		<td class=" columnnamecell" id="users_password">PASSWORD</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのパスワード</pre></td>
+		<td class="subcell">password</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">トークン</td>
+		<td class=" columnnamecell" id="users_token">TOKEN</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのトークン</pre></td>
+		<td class="subcell">token</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成された時間</td>
+		<td class="comcolcell columnnamecell" id="users_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新された時間</td>
+		<td class="comcolcell columnnamecell" id="users_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="user_accounts" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=6">
+(ユーザとアカウント関連テーブル)USER_ACCOUNTS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment USER_ACCOUNTS_comment" data-name="USER_ACCOUNTS"><pre>ユーザとアカウントの関連テーブル</pre></div>
+<input type="hidden" value="USER_ACCOUNTS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="user_accounts-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">アカウントID</td>
+		<td class=" columnnamecell" id="user_accounts_id">ID</td>
+		<td class="typecell">BIGINT</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>アカウントのid</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_USER_ACCOUNTS_USERS(USER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="user_accounts_user_id">USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_USER_ACCOUNTS_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>アカウントを所有しているユーザのid</pre></td>
+		<td class="subcell">userId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_USER_ACCOUNTS_ACCOUNTS(ACCOUNT_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">所持アカウントID</td>
+		<td class=" columnnamecell" id="user_accounts_account_id">ACCOUNT_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#accounts" title="FK_USER_ACCOUNTS_ACCOUNTS">ACCOUNTS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザの所有しているアカウントid</pre></td>
+		<td class="subcell">accountId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">更新された時間</td>
+		<td class=" columnnamecell" id="user_accounts_update_at">UPDATE_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updateAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">作成された時間</td>
+		<td class=" columnnamecell" id="user_accounts_create_at">CREATE_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">直前サインイン時間</td>
+		<td class=" columnnamecell" id="user_accounts_signed_in_at">SIGNED_IN_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>アカウントのログインした時間</pre></td>
+		<td class="subcell">signedInAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="user_follows" title="type=TABLE, primaryKey={ID}, nameLength=12, columnCount=5">
+(フォロー関係テーブル)USER_FOLLOWS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment USER_FOLLOWS_comment" data-name="USER_FOLLOWS"><pre>フォローフォロワー関係を管理するテーブル</pre></div>
+<input type="hidden" value="USER_FOLLOWS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="user_follows-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">フォローフォロワー関係のID</td>
+		<td class=" columnnamecell" id="user_follows_id">ID</td>
+		<td class="typecell">BIGINT</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_USER_FOLLOWS_USERS(USER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">被フォローユーザID</td>
+		<td class=" columnnamecell" id="user_follows_user_id">USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_USER_FOLLOWS_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>フォローしたユーザのID</pre></td>
+		<td class="subcell">userId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_USER_FOLLOWS_USERS_FOLLOWING(FOLLOWING_USER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">フォローユーザID</td>
+		<td class=" columnnamecell" id="user_follows_following_user_id">FOLLOWING_USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_USER_FOLLOWS_USERS_FOLLOWING">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>フォローされたユーザのid</pre></td>
+		<td class="subcell">followingUserId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成された時間</td>
+		<td class="comcolcell columnnamecell" id="user_follows_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新された時間</td>
+		<td class="comcolcell columnnamecell" id="user_follows_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="user_retweets" title="type=TABLE, primaryKey={ID}, nameLength=13, columnCount=6">
+(USER_RETWEETS)USER_RETWEETS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment USER_RETWEETS_comment" data-name="USER_RETWEETS"><pre>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</pre></div>
+<input type="hidden" value="USER_RETWEETS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="user_retweets-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="user_retweets_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザのid</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_USER_RETWEET_USER_ID_RETWEET_ID(USER_ID, TWEET_ID)">o<span class="flgplus">+</span></td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="user_retweets_user_id">USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_USER_RETWEET_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>リツイートしたユーザのid</pre></td>
+		<td class="subcell">userId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_USER_RETWEET_USER_ID_RETWEET_ID(USER_ID, TWEET_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell" title="FK_USER_RETWEET_TWIEETS(TWEET_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="user_retweets_tweet_id">TWEET_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#tweets" title="FK_USER_RETWEET_TWIEETS">TWEETS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>リツイートしたtweet_id</pre></td>
+		<td class="subcell">tweetId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="user_retweets_body">BODY</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>リツイートする際の文章</pre></td>
+		<td class="subcell">body</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">作成日</td>
+		<td class="comcolcell columnnamecell" id="user_retweets_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell">更新日</td>
+		<td class="comcolcell columnnamecell" id="user_retweets_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="user_tweets" title="type=TABLE, primaryKey={ID}, nameLength=11, columnCount=5">
+(USER_TWEETS)USER_TWEETS
+&nbsp;<span class="tablefirstdatetitle">since 2020/05/14</span>
+</h2>
+<div class="tablecomment USER_TWEETS_comment" data-name="USER_TWEETS"><pre>どのユーザがどのツイートをしたのかを管理するテーブル
+USERとTWEETSの中間テーブル</pre></div>
+<input type="hidden" value="USER_TWEETS">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Alias</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="user_tweets-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="user_tweets_id">ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">id</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_USER_TWEETS_USER_ID_TWEET_ID(USER_ID, TWEET_ID)">o<span class="flgplus">+</span></td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell">ユーザID</td>
+		<td class=" columnnamecell" id="user_tweets_user_id">USER_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#users" title="FK_USER_TWEETS_USERS">USERS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ツイートしたユーザのid</pre></td>
+		<td class="subcell">userId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_USER_TWEETS_USER_ID_TWEET_ID(USER_ID, TWEET_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell" title="FK_USER_TWEETS_TWIEETS(TWEET_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell"></td>
+		<td class=" columnnamecell" id="user_tweets_tweet_id">TWEET_ID</td>
+		<td class="typecell">BIGINT UNSIGNED</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#tweets" title="FK_USER_TWEETS_TWIEETS">TWEETS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>ユーザがツイートした時のid</pre></td>
+		<td class="subcell">tweetId</td>
+		<td class="subcell">Long</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell"></td>
+		<td class="comcolcell columnnamecell" id="user_tweets_updated_at">UPDATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">updatedAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="aliascell comcolcell"></td>
+		<td class="comcolcell columnnamecell" id="user_tweets_created_at">CREATED_AT</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>&nbsp;</pre></td>
+		<td class="subcell">createdAt</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
 	</tr>
 	</tbody>
 </table>
@@ -1198,16 +2728,229 @@ function StoreClient() {
 		]
 	}
 	this.pickupStore = {
-		'SAMPLE': {
-			'databaseComment': 'this&nbsp;is&nbsp;sample&nbsp;table.'
+		'ACCOUNTS': {
+			'databaseComment': 'アカウントを管理するテーブル'
 			, 'columns': {
-				'SAMPLE_ID': {
-					'databaseComment': ''
+				'ID': {
+					'databaseComment': 'アカウントのid'
+				}
+				, 'NAME': {
+					'databaseComment': 'アカウント名'
+				}
+				, 'DISPLAY_ID': {
+					'databaseComment': '@の後に続くアカウントのid<br>検索等に使われる'
+				}
+				, 'WEB_SITE_URL': {
+					'databaseComment': 'ウロフィールに載せるwebのurl'
+				}
+				, 'DESCRIPTION': {
+					'databaseComment': 'プロフィールに載せる文章'
+				}
+				, 'ICON_PATH': {
+					'databaseComment': 'ユーザのアイコンのパス'
 				}
 				, 'CREATED_AT': {
 					'databaseComment': ''
 				}
 				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'TWEETS': {
+			'databaseComment': 'ツイートを管理するテーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'BODY': {
+					'databaseComment': 'ツイートの文章'
+				}
+				, 'DEVICE_TYPE': {
+					'databaseComment': 'ツイートしたデバイスのタイプ'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'TWEET_IMAGES': {
+			'databaseComment': 'ツイートに対して投稿された画像のパスを紐づけるテーブル<br>seqでシーケンス番号(順番)を管理している'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'TWEET_ID': {
+					'databaseComment': '画像が紐づくツイートのid'
+				}
+				, 'IMAGE_PATH': {
+					'databaseComment': 'ツイートに紐づく画像のurl'
+				}
+				, 'SEQ': {
+					'databaseComment': 'ツイートに載せる画像の順番'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'TWEET_LIKES': {
+			'databaseComment': 'ユーザがどのツイートにいいねしたかを管理するテーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'TWEET_ID': {
+					'databaseComment': 'いいねされたツイートのid'
+				}
+				, 'LIKED_USER_ID': {
+					'databaseComment': 'ツイートにいいねしたユーザのid'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'TWEET_REPLIES': {
+			'databaseComment': 'ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル<br>typeとreply_parent_idで返信先が決まる<br>reply_parent_idのdescに例がある'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'REPLY_USER_ID': {
+					'databaseComment': 'ツイートに返信したユーザのid'
+				}
+				, 'SEQ': {
+					'databaseComment': '返信の順番'
+				}
+				, 'REPLY_PARENT_ID': {
+					'databaseComment': '返信したツイートのid<br>typeと連動している<br>例&nbsp;:&nbsp;<br>type&nbsp;:&nbsp;1、reply_parent_id&nbsp;&nbsp;:&nbsp;1<br>tweet_id&nbsp;1のスレッドに対して返信<br><br>type&nbsp;:&nbsp;2、reply_parent_id&nbsp;&nbsp;:&nbsp;1<br>retweet_id&nbsp;1&nbsp;のスレッドに対しての返信<br><br>type&nbsp;:&nbsp;3、reply_parent_id&nbsp;&nbsp;:&nbsp;1<br>replies_id&nbsp;1にたいしての返信<br>返信に対しての返信'
+				}
+				, 'TYPE': {
+					'databaseComment': '返信したスレッドのタイプ<br>1&nbsp;→&nbsp;tweet&nbsp;thread<br>2&nbsp;→&nbsp;retweet&nbsp;thread<br>3&nbsp;→&nbsp;reply&nbsp;thread'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'USERS': {
+			'databaseComment': 'ユーザを管理するテーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': 'ユーザのid'
+				}
+				, 'EMAIL': {
+					'databaseComment': 'ユーザのメールアドレス'
+				}
+				, 'PASSWORD': {
+					'databaseComment': 'ユーザのパスワード'
+				}
+				, 'TOKEN': {
+					'databaseComment': 'ユーザのトークン'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'USER_ACCOUNTS': {
+			'databaseComment': 'ユーザとアカウントの関連テーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': 'アカウントのid'
+				}
+				, 'USER_ID': {
+					'databaseComment': 'アカウントを所有しているユーザのid'
+				}
+				, 'ACCOUNT_ID': {
+					'databaseComment': 'ユーザの所有しているアカウントid'
+				}
+				, 'UPDATE_AT': {
+					'databaseComment': ''
+				}
+				, 'CREATE_AT': {
+					'databaseComment': ''
+				}
+				, 'SIGNED_IN_AT': {
+					'databaseComment': 'アカウントのログインした時間'
+				}
+			}
+		}
+		, 'USER_FOLLOWS': {
+			'databaseComment': 'フォローフォロワー関係を管理するテーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'USER_ID': {
+					'databaseComment': 'フォローしたユーザのID'
+				}
+				, 'FOLLOWING_USER_ID': {
+					'databaseComment': 'フォローされたユーザのid'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'USER_RETWEETS': {
+			'databaseComment': 'ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': 'ユーザのid'
+				}
+				, 'USER_ID': {
+					'databaseComment': 'リツイートしたユーザのid'
+				}
+				, 'TWEET_ID': {
+					'databaseComment': 'リツイートしたtweet_id'
+				}
+				, 'BODY': {
+					'databaseComment': 'リツイートする際の文章'
+				}
+				, 'CREATED_AT': {
+					'databaseComment': ''
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+			}
+		}
+		, 'USER_TWEETS': {
+			'databaseComment': 'どのユーザがどのツイートをしたのかを管理するテーブル<br>USERとTWEETSの中間テーブル'
+			, 'columns': {
+				'ID': {
+					'databaseComment': ''
+				}
+				, 'USER_ID': {
+					'databaseComment': 'ツイートしたユーザのid'
+				}
+				, 'TWEET_ID': {
+					'databaseComment': 'ユーザがツイートした時のid'
+				}
+				, 'UPDATED_AT': {
+					'databaseComment': ''
+				}
+				, 'CREATED_AT': {
 					'databaseComment': ''
 				}
 			}
