@@ -143,12 +143,13 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
-					<physical_name>display_id</physical_name>
-					<logical_name>ディスプレイID</logical_name>
+					<physical_name>uniq_name</physical_name>
+					<logical_name>アカウントのユニーク名</logical_name>
 					<type>varchar(n)</type>
 					<length>255</length>
 					<description>@の後に続くアカウントのid&#x0A;検索等に使われる</description>
 					<not_null>true</not_null>
+					<unique_key>true</unique_key>
 				</normal_column>
 				<normal_column>
 					<physical_name>web_site_url</physical_name>
@@ -159,7 +160,8 @@
 				<normal_column>
 					<physical_name>description</physical_name>
 					<logical_name>プロフィール文</logical_name>
-					<type>text</type>
+					<type>varchar(n)</type>
+					<length>255</length>
 					<description>プロフィールに載せる文章</description>
 				</normal_column>
 				<normal_column>
@@ -197,7 +199,402 @@
 					<type>BTREE</type>
 					<columns>
 						<column>
-							<column_id>table.ACCOUNTS.display_id</column_id>
+							<column_id>table.ACCOUNTS.uniq_name</column_id>
+						</column>
+					</columns>
+				</index>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>ACCOUNT_FOLLOWS</physical_name>
+			<logical_name>フォロー関係テーブル</logical_name>
+			<description>フォローフォロワー関係を管理するテーブル</description>
+			<height>84</height>
+			<width>221</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>339</x>
+			<y>151</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_USER_FOLLOWS_ACCOUNTS</name>
+					<source>table.ACCOUNTS</source>
+					<target>table.ACCOUNT_FOLLOWS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>account_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_USER_FOLLOWS_ACCOUNTS_FOLLOWS</name>
+					<source>table.ACCOUNTS</source>
+					<target>table.ACCOUNT_FOLLOWS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>following_account_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+					<target_xp>100</target_xp>
+					<target_yp>58</target_yp>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<logical_name>フォローフォロワー関係のID</logical_name>
+					<type>bigint</type>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>account_id</physical_name>
+					<logical_name>フォローしているのアカウントID</logical_name>
+					<referred_column>table.ACCOUNTS.id</referred_column>
+					<relationship>FK_USER_FOLLOWS_ACCOUNTS</relationship>
+					<description>フォローしたユーザのID</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>following_account_id</physical_name>
+					<logical_name>フォローされたアカウントID</logical_name>
+					<referred_column>table.ACCOUNTS.id</referred_column>
+					<relationship>FK_USER_FOLLOWS_ACCOUNTS_FOLLOWS</relationship>
+					<description>フォローされたユーザのid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<logical_name>作成された時間</logical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<logical_name>更新された時間</logical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+				<index>
+					<name>UQ_USER_FOLLOWS_XXX</name>
+					<type>BTREE</type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNT_FOLLOWS.id</column_id>
+						</column>
+					</columns>
+				</index>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>ACCOUNT_LIKES</physical_name>
+			<logical_name>ツイートへのいいね管理テーブル</logical_name>
+			<description>ユーザがどのツイートにいいねしたかを管理するテーブル</description>
+			<height>120</height>
+			<width>192</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>616</x>
+			<y>573</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_TWEET_LIKES_TWIEETS</name>
+					<source>table.TWEETS</source>
+					<target>table.ACCOUNT_LIKES</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>tweet_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_ACCOUNT_LIKES_ACCOUNTS</name>
+					<source>table.ACCOUNTS</source>
+					<target>table.ACCOUNT_LIKES</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>liked_account_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<referred_column>table.TWEETS.id</referred_column>
+					<relationship>FK_TWEET_LIKES_TWIEETS</relationship>
+					<description>いいねされたツイートのid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>liked_account_id</physical_name>
+					<logical_name>ユーザID</logical_name>
+					<referred_column>table.ACCOUNTS.id</referred_column>
+					<relationship>FK_ACCOUNT_LIKES_ACCOUNTS</relationship>
+					<description>ツイートにいいねしたユーザのid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>AUDIT</column_group>
+			</columns>
+			<indexes>
+				<index>
+					<name>UQ_TWEET_LIKES_TWEET_ID_LIKED_USER_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNT_LIKES.tweet_id</column_id>
+						</column>
+						<column>
+							<column_id>table.ACCOUNT_LIKES.liked_account_id</column_id>
+						</column>
+					</columns>
+				</index>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>ACCOUNT_RETWEETS</physical_name>
+			<logical_name>リツート管理テーブル</logical_name>
+			<description>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</description>
+			<height>170</height>
+			<width>224</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>70</x>
+			<y>557</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_USER_RETWEET_TWIEETS</name>
+					<source>table.TWEETS</source>
+					<target>table.ACCOUNT_RETWEETS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>tweet_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_ACCOUNT_RETWEETS_ACCOUNTS</name>
+					<source>table.ACCOUNTS</source>
+					<target>table.ACCOUNT_RETWEETS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>account_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<description>ユーザのid&#x0A;</description>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>account_id</physical_name>
+					<logical_name>ユーザID</logical_name>
+					<referred_column>table.ACCOUNTS.id</referred_column>
+					<relationship>FK_ACCOUNT_RETWEETS_ACCOUNTS</relationship>
+					<description>リツイートしたユーザのid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<referred_column>table.TWEETS.id</referred_column>
+					<relationship>FK_USER_RETWEET_TWIEETS</relationship>
+					<description>リツイートしたtweet_id</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>body</physical_name>
+					<type>varchar(n)</type>
+					<length>144</length>
+					<description>リツイートする際の文章</description>
+				</normal_column>
+				<column_group>AUDIT</column_group>
+			</columns>
+			<indexes>
+				<index>
+					<name>UQ_USER_RETWEET_USER_ID_RETWEET_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNT_RETWEETS.account_id</column_id>
+						</column>
+						<column>
+							<column_id>table.ACCOUNT_RETWEETS.tweet_id</column_id>
+						</column>
+					</columns>
+				</index>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>ACCOUNT_TWEETS</physical_name>
+			<logical_name>ユーザとツイートの関連テーブル</logical_name>
+			<description>どのユーザがどのツイートをしたのかを管理するテーブル&#x0A;USERとTWEETSの中間テーブル</description>
+			<height>120</height>
+			<width>169</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>355</x>
+			<y>570</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_USER_TWEETS_TWIEETS</name>
+					<source>table.TWEETS</source>
+					<target>table.ACCOUNT_TWEETS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>tweet_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_ACCOUNT_TWEETS_ACCOUNTS</name>
+					<source>table.ACCOUNTS</source>
+					<target>table.ACCOUNT_TWEETS</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>account_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>id</physical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>account_id</physical_name>
+					<logical_name>ユーザID</logical_name>
+					<referred_column>table.ACCOUNTS.id</referred_column>
+					<relationship>FK_ACCOUNT_TWEETS_ACCOUNTS</relationship>
+					<description>ツイートしたユーザのid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>tweet_id</physical_name>
+					<referred_column>table.TWEETS.id</referred_column>
+					<relationship>FK_USER_TWEETS_TWIEETS</relationship>
+					<description>ユーザがツイートした時のid</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>updated_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>created_at</physical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+				<index>
+					<name>UQ_USER_TWEETS_USER_ID_TWEET_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNT_TWEETS.account_id</column_id>
+						</column>
+						<column>
+							<column_id>table.ACCOUNT_TWEETS.tweet_id</column_id>
 						</column>
 					</columns>
 				</index>
@@ -235,7 +632,8 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>body</physical_name>
-					<type>text</type>
+					<type>varchar(n)</type>
+					<length>144</length>
 					<description>ツイートの文章</description>
 					<not_null>true</not_null>
 				</normal_column>
@@ -263,8 +661,8 @@
 			<width>169</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>94</x>
-			<y>960</y>
+			<x>106</x>
+			<y>985</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -324,97 +722,6 @@
 			</table_properties>
 		</table>
 		<table>
-			<physical_name>TWEET_LIKES</physical_name>
-			<logical_name>ツイートへのいいね管理テーブル</logical_name>
-			<description>ユーザがどのツイートにいいねしたかを管理するテーブル</description>
-			<height>120</height>
-			<width>192</width>
-			<font_name>.AppleSystemUIFont</font_name>
-			<font_size>9</font_size>
-			<x>616</x>
-			<y>573</y>
-			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
-			</color>
-			<connections>
-				<relationship>
-					<name>FK_TWEET_LIKES_TWIEETS</name>
-					<source>table.TWEETS</source>
-					<target>table.TWEET_LIKES</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>tweet_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-				<relationship>
-					<name>FK_TWEET_LIKES_USERS</name>
-					<source>table.USERS</source>
-					<target>table.TWEET_LIKES</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>liked_user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-			</connections>
-			<columns>
-				<normal_column>
-					<physical_name>id</physical_name>
-					<type>bigint</type>
-					<unsigned>true</unsigned>
-					<not_null>true</not_null>
-					<primary_key>true</primary_key>
-					<auto_increment>true</auto_increment>
-				</normal_column>
-				<normal_column>
-					<physical_name>tweet_id</physical_name>
-					<referred_column>table.TWEETS.id</referred_column>
-					<relationship>FK_TWEET_LIKES_TWIEETS</relationship>
-					<description>いいねされたツイートのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>liked_user_id</physical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_TWEET_LIKES_USERS</relationship>
-					<description>ツイートにいいねしたユーザのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<column_group>AUDIT</column_group>
-			</columns>
-			<indexes>
-				<index>
-					<name>UQ_TWEET_LIKES_TWEET_ID_LIKED_USER_ID</name>
-					<type></type>
-					<columns>
-						<column>
-							<column_id>table.TWEET_LIKES.tweet_id</column_id>
-						</column>
-						<column>
-							<column_id>table.TWEET_LIKES.liked_user_id</column_id>
-						</column>
-					</columns>
-				</index>
-			</indexes>
-			<compound_unique_key_list>
-			</compound_unique_key_list>
-			<table_properties>
-			</table_properties>
-		</table>
-		<table>
 			<physical_name>TWEET_REPLIES</physical_name>
 			<logical_name>ツイートへの返信管理テーブル</logical_name>
 			<description>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル&#x0A;typeとreply_parent_idで返信先が決まる&#x0A;reply_parent_idのdescに例がある</description>
@@ -430,21 +737,6 @@
 				<b>192</b>
 			</color>
 			<connections>
-				<relationship>
-					<name>FK_TWEET_REPLIES_USERS</name>
-					<source>table.USERS</source>
-					<target>table.TWEET_REPLIES</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>reply_user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -457,8 +749,9 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>reply_user_id</physical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_TWEET_REPLIES_USERS</relationship>
+					<logical_name>ユーザID</logical_name>
+					<type>bigint</type>
+					<unsigned>true</unsigned>
 					<description>ツイートに返信したユーザのid</description>
 					<not_null>true</not_null>
 				</normal_column>
@@ -541,16 +834,19 @@
 				<normal_column>
 					<physical_name>password</physical_name>
 					<logical_name>パスワード</logical_name>
-					<type>text</type>
+					<type>varchar(n)</type>
+					<length>15</length>
 					<description>ユーザのパスワード</description>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>token</physical_name>
 					<logical_name>トークン</logical_name>
-					<type>text</type>
+					<type>varchar(n)</type>
+					<length>31</length>
 					<description>ユーザのトークン</description>
 					<not_null>true</not_null>
+					<unique_key>true</unique_key>
 				</normal_column>
 				<normal_column>
 					<physical_name>created_at</physical_name>
@@ -566,6 +862,27 @@
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USERS_EMAIL</name>
+					<type>BTREE</type>
+					<description>ユーザのメールアドレス</description>
+					<columns>
+						<column>
+							<column_id>table.USERS.email</column_id>
+							<desc>true</desc>
+						</column>
+					</columns>
+				</index>
+				<index>
+					<name>UQ_USERS_TOKEN</name>
+					<type>BTREE</type>
+					<non_unique>true</non_unique>
+					<columns>
+						<column>
+							<column_id>table.USERS.token</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -598,7 +915,7 @@
 						</fk_column>
 					</fk_columns>
 					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
+					<child_cardinality>1..n</child_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
@@ -613,7 +930,7 @@
 						</fk_column>
 					</fk_columns>
 					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
+					<child_cardinality>1..n</child_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
@@ -671,308 +988,6 @@
 					<columns>
 						<column>
 							<column_id>table.USER_ACCOUNTS.id</column_id>
-						</column>
-					</columns>
-				</index>
-			</indexes>
-			<compound_unique_key_list>
-			</compound_unique_key_list>
-			<table_properties>
-			</table_properties>
-		</table>
-		<table>
-			<physical_name>USER_FOLLOWS</physical_name>
-			<logical_name>フォロー関係テーブル</logical_name>
-			<description>フォローフォロワー関係を管理するテーブル</description>
-			<height>84</height>
-			<width>221</width>
-			<font_name>.AppleSystemUIFont</font_name>
-			<font_size>9</font_size>
-			<x>339</x>
-			<y>151</y>
-			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
-			</color>
-			<connections>
-				<relationship>
-					<name>FK_USER_FOLLOWS_USERS</name>
-					<source>table.USERS</source>
-					<target>table.USER_FOLLOWS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-					<target_xp>0</target_xp>
-					<target_yp>57</target_yp>
-				</relationship>
-				<relationship>
-					<name>FK_USER_FOLLOWS_USERS_FOLLOWING</name>
-					<source>table.USERS</source>
-					<target>table.USER_FOLLOWS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>following_user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-					<target_xp>0</target_xp>
-					<target_yp>83</target_yp>
-				</relationship>
-			</connections>
-			<columns>
-				<normal_column>
-					<physical_name>id</physical_name>
-					<logical_name>フォローフォロワー関係のID</logical_name>
-					<type>bigint</type>
-					<not_null>true</not_null>
-					<primary_key>true</primary_key>
-					<auto_increment>true</auto_increment>
-				</normal_column>
-				<normal_column>
-					<physical_name>user_id</physical_name>
-					<logical_name>被フォローユーザID</logical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_USER_FOLLOWS_USERS</relationship>
-					<description>フォローしたユーザのID</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>following_user_id</physical_name>
-					<logical_name>フォローユーザID</logical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_USER_FOLLOWS_USERS_FOLLOWING</relationship>
-					<description>フォローされたユーザのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>created_at</physical_name>
-					<logical_name>作成された時間</logical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>updated_at</physical_name>
-					<logical_name>更新された時間</logical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
-			</columns>
-			<indexes>
-				<index>
-					<name>UQ_USER_FOLLOWS_XXX</name>
-					<type>BTREE</type>
-					<columns>
-						<column>
-							<column_id>table.USER_FOLLOWS.id</column_id>
-						</column>
-					</columns>
-				</index>
-			</indexes>
-			<compound_unique_key_list>
-			</compound_unique_key_list>
-			<table_properties>
-			</table_properties>
-		</table>
-		<table>
-			<physical_name>USER_RETWEETS</physical_name>
-			<logical_name>リツート管理テーブル</logical_name>
-			<description>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</description>
-			<height>138</height>
-			<width>181</width>
-			<font_name>.AppleSystemUIFont</font_name>
-			<font_size>9</font_size>
-			<x>96</x>
-			<y>557</y>
-			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
-			</color>
-			<connections>
-				<relationship>
-					<name>FK_USER_RETWEET_USERS</name>
-					<source>table.USERS</source>
-					<target>table.USER_RETWEETS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-				<relationship>
-					<name>FK_USER_RETWEET_TWIEETS</name>
-					<source>table.TWEETS</source>
-					<target>table.USER_RETWEETS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>tweet_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-			</connections>
-			<columns>
-				<normal_column>
-					<physical_name>id</physical_name>
-					<type>bigint</type>
-					<unsigned>true</unsigned>
-					<description>ユーザのid&#x0A;</description>
-					<not_null>true</not_null>
-					<primary_key>true</primary_key>
-					<auto_increment>true</auto_increment>
-				</normal_column>
-				<normal_column>
-					<physical_name>user_id</physical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_USER_RETWEET_USERS</relationship>
-					<description>リツイートしたユーザのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>tweet_id</physical_name>
-					<referred_column>table.TWEETS.id</referred_column>
-					<relationship>FK_USER_RETWEET_TWIEETS</relationship>
-					<description>リツイートしたtweet_id</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>body</physical_name>
-					<type>text</type>
-					<description>リツイートする際の文章</description>
-				</normal_column>
-				<column_group>AUDIT</column_group>
-			</columns>
-			<indexes>
-				<index>
-					<name>UQ_USER_RETWEET_USER_ID_RETWEET_ID</name>
-					<type></type>
-					<columns>
-						<column>
-							<column_id>table.USER_RETWEETS.user_id</column_id>
-						</column>
-						<column>
-							<column_id>table.USER_RETWEETS.tweet_id</column_id>
-						</column>
-					</columns>
-				</index>
-			</indexes>
-			<compound_unique_key_list>
-			</compound_unique_key_list>
-			<table_properties>
-			</table_properties>
-		</table>
-		<table>
-			<physical_name>USER_TWEETS</physical_name>
-			<logical_name>ユーザとツイートの関連テーブル</logical_name>
-			<description>どのユーザがどのツイートをしたのかを管理するテーブル&#x0A;USERとTWEETSの中間テーブル</description>
-			<height>120</height>
-			<width>169</width>
-			<font_name>.AppleSystemUIFont</font_name>
-			<font_size>9</font_size>
-			<x>355</x>
-			<y>570</y>
-			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
-			</color>
-			<connections>
-				<relationship>
-					<name>FK_USER_TWEETS_USERS</name>
-					<source>table.USERS</source>
-					<target>table.USER_TWEETS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>user_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-				<relationship>
-					<name>FK_USER_TWEETS_TWIEETS</name>
-					<source>table.TWEETS</source>
-					<target>table.USER_TWEETS</target>
-					<fk_columns>
-						<fk_column>
-							<fk_column_name>tweet_id</fk_column_name>
-						</fk_column>
-					</fk_columns>
-					<parent_cardinality>1</parent_cardinality>
-					<child_cardinality>0..n</child_cardinality>
-					<reference_for_pk>true</reference_for_pk>
-					<on_delete_action>RESTRICT</on_delete_action>
-					<on_update_action>RESTRICT</on_update_action>
-				</relationship>
-			</connections>
-			<columns>
-				<normal_column>
-					<physical_name>id</physical_name>
-					<type>bigint</type>
-					<unsigned>true</unsigned>
-					<not_null>true</not_null>
-					<primary_key>true</primary_key>
-					<auto_increment>true</auto_increment>
-				</normal_column>
-				<normal_column>
-					<physical_name>user_id</physical_name>
-					<referred_column>table.USERS.id</referred_column>
-					<relationship>FK_USER_TWEETS_USERS</relationship>
-					<description>ツイートしたユーザのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>tweet_id</physical_name>
-					<referred_column>table.TWEETS.id</referred_column>
-					<relationship>FK_USER_TWEETS_TWIEETS</relationship>
-					<description>ユーザがツイートした時のid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>updated_at</physical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>created_at</physical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
-			</columns>
-			<indexes>
-				<index>
-					<name>UQ_USER_TWEETS_USER_ID_TWEET_ID</name>
-					<type></type>
-					<columns>
-						<column>
-							<column_id>table.USER_TWEETS.user_id</column_id>
-						</column>
-						<column>
-							<column_id>table.USER_TWEETS.tweet_id</column_id>
 						</column>
 					</columns>
 				</index>
