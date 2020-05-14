@@ -231,7 +231,6 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -294,7 +293,6 @@
 					<type>bigint</type>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -319,19 +317,6 @@
 				<column_group>AUDIT</column_group>
 			</columns>
 			<indexes>
-				<index>
-					<name>UQ_TWEET_IMAGES_TWEET_ID_IMAGE_PATH</name>
-					<type></type>
-					<non_unique>true</non_unique>
-					<columns>
-						<column>
-							<column_id>table.TWEET_IMAGES.tweet_id</column_id>
-						</column>
-						<column>
-							<column_id>table.TWEET_IMAGES.image_path</column_id>
-						</column>
-					</columns>
-				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -392,7 +377,6 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -469,7 +453,6 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -866,7 +849,6 @@
 					<description>ユーザのid&#x0A;</description>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -963,7 +945,6 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
