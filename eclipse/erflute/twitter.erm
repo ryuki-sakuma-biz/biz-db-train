@@ -186,13 +186,13 @@
 		<table>
 			<physical_name>TWEETS</physical_name>
 			<logical_name>TWIEETS</logical_name>
-			<description></description>
+			<description>ツイートを管理するテーブル</description>
 			<height>120</height>
 			<width>169</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>104</x>
-			<y>723</y>
+			<y>774</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -244,13 +244,13 @@
 		<table>
 			<physical_name>TWEET_IMAGES</physical_name>
 			<logical_name>TWEET_IMAGES</logical_name>
-			<description></description>
+			<description>ツイートに対して投稿された画像のパスを紐づけるテーブル&#x0A;seqでシーケンス番号(順番)を管理している</description>
 			<height>138</height>
 			<width>169</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>94</x>
-			<y>901</y>
+			<y>960</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -322,13 +322,13 @@
 		<table>
 			<physical_name>TWEET_LIKES</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>ユーザがどのツイートにいいねしたかを管理するテーブル</description>
 			<height>120</height>
 			<width>192</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>604</x>
-			<y>568</y>
+			<x>616</x>
+			<y>573</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -411,13 +411,13 @@
 		<table>
 			<physical_name>TWEET_REPLIES</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル&#x0A;typeとreply_parent_idで返信先が決まる&#x0A;reply_parent_idのdescに例がある</description>
 			<height>174</height>
 			<width>193</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>334</x>
-			<y>737</y>
+			<x>372</x>
+			<y>765</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -425,12 +425,12 @@
 			</color>
 			<connections>
 				<relationship>
-					<name>FK_TWEET_REPLIES_TWIEETS</name>
-					<source>table.TWEETS</source>
+					<name>FK_TWEET_REPLIES_USERS</name>
+					<source>table.USERS</source>
 					<target>table.TWEET_REPLIES</target>
 					<fk_columns>
 						<fk_column>
-							<fk_column_name>tweet_id</fk_column_name>
+							<fk_column_name>reply_user_id</fk_column_name>
 						</fk_column>
 					</fk_columns>
 					<parent_cardinality>1</parent_cardinality>
@@ -451,16 +451,9 @@
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
-					<physical_name>tweet_id</physical_name>
-					<referred_column>table.TWEETS.id</referred_column>
-					<relationship>FK_TWEET_REPLIES_TWIEETS</relationship>
-					<description>返信されたツイートのid</description>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
 					<physical_name>reply_user_id</physical_name>
-					<type>bigint</type>
-					<unsigned>true</unsigned>
+					<referred_column>table.USERS.id</referred_column>
+					<relationship>FK_TWEET_REPLIES_USERS</relationship>
 					<description>ツイートに返信したユーザのid</description>
 					<not_null>true</not_null>
 				</normal_column>
@@ -758,7 +751,7 @@
 		<table>
 			<physical_name>USER_RETWEET</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</description>
 			<height>138</height>
 			<width>181</width>
 			<font_name>.AppleSystemUIFont</font_name>
@@ -792,7 +785,7 @@
 					<target>table.USER_RETWEET</target>
 					<fk_columns>
 						<fk_column>
-							<fk_column_name>retweet_id</fk_column_name>
+							<fk_column_name>tweet_id</fk_column_name>
 						</fk_column>
 					</fk_columns>
 					<parent_cardinality>1</parent_cardinality>
@@ -821,7 +814,7 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
-					<physical_name>retweet_id</physical_name>
+					<physical_name>tweet_id</physical_name>
 					<referred_column>table.TWEETS.id</referred_column>
 					<relationship>FK_USER_RETWEET_TWIEETS</relationship>
 					<description>リツイートしたtweet_id</description>
@@ -832,18 +825,21 @@
 					<type>text</type>
 					<description>リツイートする際の文章</description>
 				</normal_column>
-				<normal_column>
-					<physical_name>created_at</physical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>updated_at</physical_name>
-					<type>datetime</type>
-					<not_null>true</not_null>
-				</normal_column>
+				<column_group>AUDIT</column_group>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USER_RETWEET_USER_ID_RETWEET_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.USER_RETWEET.user_id</column_id>
+						</column>
+						<column>
+							<column_id>table.USER_RETWEET.tweet_id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -853,13 +849,13 @@
 		<table>
 			<physical_name>USER_TWEETS</physical_name>
 			<logical_name>USER_TWEETS</logical_name>
-			<description></description>
-			<height>84</height>
+			<description>どのユーザがどのツイートをしたのかを管理するテーブル&#x0A;USERとTWEETSの中間テーブル</description>
+			<height>120</height>
 			<width>169</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>342</x>
-			<y>587</y>
+			<x>355</x>
+			<y>570</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -933,6 +929,18 @@
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USER_TWEETS_USER_ID_TWEET_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.USER_TWEETS.user_id</column_id>
+						</column>
+						<column>
+							<column_id>table.USER_TWEETS.tweet_id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
