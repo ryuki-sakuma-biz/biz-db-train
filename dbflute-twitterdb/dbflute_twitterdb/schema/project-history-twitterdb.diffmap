@@ -1,4 +1,58 @@
 map:{
+    ; 2020/05/14 02:58:34 = map:{
+        ; diffDate = 2020/05/14 02:58:34
+        ; tableCount = map:{
+            ; next = 10
+            ; previous = 1
+        }
+        ; diffAuthor = root
+        ; tableDiff = map:{
+            ; ACCOUNTS = map:{
+                ; tableName = ACCOUNTS
+                ; diffType = ADD
+            }
+            ; TWEETS = map:{
+                ; tableName = TWEETS
+                ; diffType = ADD
+            }
+            ; TWEET_IMAGES = map:{
+                ; tableName = TWEET_IMAGES
+                ; diffType = ADD
+            }
+            ; TWEET_LIKES = map:{
+                ; tableName = TWEET_LIKES
+                ; diffType = ADD
+            }
+            ; TWEET_REPLIES = map:{
+                ; tableName = TWEET_REPLIES
+                ; diffType = ADD
+            }
+            ; USERS = map:{
+                ; tableName = USERS
+                ; diffType = ADD
+            }
+            ; USER_ACCOUNTS = map:{
+                ; tableName = USER_ACCOUNTS
+                ; diffType = ADD
+            }
+            ; USER_FOLLOWS = map:{
+                ; tableName = USER_FOLLOWS
+                ; diffType = ADD
+            }
+            ; USER_RETWEETS = map:{
+                ; tableName = USER_RETWEETS
+                ; diffType = ADD
+            }
+            ; USER_TWEETS = map:{
+                ; tableName = USER_TWEETS
+                ; diffType = ADD
+            }
+            ; SAMPLE = map:{
+                ; tableName = SAMPLE
+                ; diffType = DELETE
+            }
+        }
+    }
     ; 2020/04/16 07:40:20 = map:{
         ; diffDate = 2020/04/16 07:40:20
         ; diffAuthor = root
