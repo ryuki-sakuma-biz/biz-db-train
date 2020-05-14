@@ -109,13 +109,13 @@
 		<table>
 			<physical_name>ACCOUNTS</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
-			<height>174</height>
+			<description>アカウントを管理するテーブル</description>
+			<height>222</height>
 			<width>176</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>609</x>
-			<y>326</y>
+			<x>610</x>
+			<y>310</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -126,16 +126,17 @@
 			<columns>
 				<normal_column>
 					<physical_name>id</physical_name>
+					<logical_name>アカウントID</logical_name>
 					<type>bigint</type>
 					<unsigned>true</unsigned>
 					<description>アカウントのid</description>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
 					<physical_name>name</physical_name>
+					<logical_name>アカウント名</logical_name>
 					<type>varchar(n)</type>
 					<length>30</length>
 					<description>アカウント名</description>
@@ -143,40 +144,63 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>display_id</physical_name>
+					<logical_name>ディスプレイID</logical_name>
 					<type>varchar(n)</type>
 					<length>255</length>
 					<description>@の後に続くアカウントのid&#x0A;検索等に使われる</description>
 					<not_null>true</not_null>
-					<unique_key>true</unique_key>
 				</normal_column>
 				<normal_column>
 					<physical_name>web_site_url</physical_name>
+					<logical_name>ウェブサイトURL</logical_name>
 					<type>text</type>
 					<description>ウロフィールに載せるwebのurl</description>
 				</normal_column>
 				<normal_column>
 					<physical_name>description</physical_name>
+					<logical_name>プロフィール文</logical_name>
 					<type>text</type>
 					<description>プロフィールに載せる文章</description>
 				</normal_column>
 				<normal_column>
 					<physical_name>icon_path</physical_name>
+					<logical_name>アイコンURL</logical_name>
 					<type>text</type>
 					<description>ユーザのアイコンのパス</description>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>created_at</physical_name>
+					<logical_name>作成された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>updated_at</physical_name>
+					<logical_name>更新された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_ACCOUNTS_ID</name>
+					<type>BTREE</type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNTS.id</column_id>
+						</column>
+					</columns>
+				</index>
+				<index>
+					<name>UQ_ACCOUNTS_DISPLAY_ID</name>
+					<type>BTREE</type>
+					<columns>
+						<column>
+							<column_id>table.ACCOUNTS.display_id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -506,13 +530,13 @@
 		<table>
 			<physical_name>USERS</physical_name>
 			<logical_name>ユーザターブル</logical_name>
-			<description></description>
-			<height>75</height>
-			<width>120</width>
+			<description>ユーザを管理するテーブル</description>
+			<height>170</height>
+			<width>146</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>91</x>
-			<y>344</y>
+			<x>97</x>
+			<y>319</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -523,6 +547,7 @@
 			<columns>
 				<normal_column>
 					<physical_name>id</physical_name>
+					<logical_name>ユーザID</logical_name>
 					<type>bigint</type>
 					<unsigned>true</unsigned>
 					<description>ユーザのid&#x0A;</description>
@@ -532,6 +557,7 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>email</physical_name>
+					<logical_name>メールアドレス</logical_name>
 					<type>varchar(n)</type>
 					<length>255</length>
 					<description>ユーザのメールアドレス</description>
@@ -540,29 +566,41 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>password</physical_name>
+					<logical_name>パスワード</logical_name>
 					<type>text</type>
 					<description>ユーザのパスワード</description>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>token</physical_name>
+					<logical_name>トークン</logical_name>
 					<type>text</type>
 					<description>ユーザのトークン</description>
 					<not_null>true</not_null>
-					<unique_key>true</unique_key>
 				</normal_column>
 				<normal_column>
 					<physical_name>created_at</physical_name>
+					<logical_name>作成された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>updated_at</physical_name>
+					<logical_name>更新された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USERS_TOKEN</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.USERS.token</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -572,13 +610,13 @@
 		<table>
 			<physical_name>USER_ACCOUNTS</physical_name>
 			<logical_name>USER_ACCOUNT</logical_name>
-			<description></description>
-			<height>138</height>
+			<description>ユーザとアカウントの関連テーブル</description>
+			<height>170</height>
 			<width>183</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>341</x>
-			<y>342</y>
+			<x>343</x>
+			<y>326</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -619,11 +657,11 @@
 			<columns>
 				<normal_column>
 					<physical_name>id</physical_name>
+					<logical_name>アカウントID</logical_name>
 					<type>bigint</type>
 					<description>アカウントのid&#x0A;</description>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
-					<unique_key>true</unique_key>
 					<auto_increment>true</auto_increment>
 				</normal_column>
 				<normal_column>
@@ -635,6 +673,7 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>account_id</physical_name>
+					<logical_name>所持アカウントID</logical_name>
 					<referred_column>table.ACCOUNTS.id</referred_column>
 					<relationship>FK_USER_ACCOUNTS_ACCOUNTS</relationship>
 					<description>ユーザの所有しているアカウントid</description>
@@ -642,22 +681,34 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>update_at</physical_name>
+					<logical_name>更新された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>create_at</physical_name>
+					<logical_name>作成された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>signed_in_at</physical_name>
+					<logical_name>直前サインイン時間</logical_name>
 					<type>datetime</type>
 					<description>アカウントのログインした時間</description>
 					<not_null>true</not_null>
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USER_ACCOUNTS_ID</name>
+					<type>BTREE</type>
+					<columns>
+						<column>
+							<column_id>table.USER_ACCOUNTS.id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -667,7 +718,7 @@
 		<table>
 			<physical_name>USER_FOLLOWS</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>フォローフォロワー関係を管理するテーブル</description>
 			<height>84</height>
 			<width>221</width>
 			<font_name>.AppleSystemUIFont</font_name>
@@ -718,6 +769,7 @@
 			<columns>
 				<normal_column>
 					<physical_name>id</physical_name>
+					<logical_name>フォローフォロワー関係のID</logical_name>
 					<type>bigint</type>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
@@ -725,6 +777,7 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>user_id</physical_name>
+					<logical_name>被フォローユーザID</logical_name>
 					<referred_column>table.USERS.id</referred_column>
 					<relationship>FK_USER_FOLLOWS_USERS</relationship>
 					<description>フォローしたユーザのID</description>
@@ -732,6 +785,7 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>following_user_id</physical_name>
+					<logical_name>フォローユーザID</logical_name>
 					<referred_column>table.USERS.id</referred_column>
 					<relationship>FK_USER_FOLLOWS_USERS_FOLLOWING</relationship>
 					<description>フォローされたユーザのid</description>
@@ -739,16 +793,27 @@
 				</normal_column>
 				<normal_column>
 					<physical_name>created_at</physical_name>
+					<logical_name>作成された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>updated_at</physical_name>
+					<logical_name>更新された時間</logical_name>
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_USER_FOLLOWS_XXX</name>
+					<type>BTREE</type>
+					<columns>
+						<column>
+							<column_id>table.USER_FOLLOWS.id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
