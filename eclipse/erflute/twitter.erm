@@ -215,8 +215,8 @@
 			<width>169</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>104</x>
-			<y>774</y>
+			<x>103</x>
+			<y>781</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -319,6 +319,19 @@
 				<column_group>AUDIT</column_group>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_TWEET_IMAGES_TWEET_ID_IMAGE_PATH</name>
+					<type>BTREE</type>
+					<non_unique>true</non_unique>
+					<columns>
+						<column>
+							<column_id>table.TWEET_IMAGES.tweet_id</column_id>
+						</column>
+						<column>
+							<column_id>table.TWEET_IMAGES.image_path</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
@@ -399,6 +412,18 @@
 				<column_group>AUDIT</column_group>
 			</columns>
 			<indexes>
+				<index>
+					<name>UQ_TWEET_LIKES_TWEET_ID_LIKED_USER_ID</name>
+					<type></type>
+					<columns>
+						<column>
+							<column_id>table.TWEET_LIKES.tweet_id</column_id>
+						</column>
+						<column>
+							<column_id>table.TWEET_LIKES.liked_user_id</column_id>
+						</column>
+					</columns>
+				</index>
 			</indexes>
 			<compound_unique_key_list>
 			</compound_unique_key_list>
