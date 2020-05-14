@@ -109,7 +109,7 @@
 		<table>
 			<physical_name>ACCOUNTS</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>アカウントを管理するテーブル</description>
 			<height>222</height>
 			<width>176</width>
 			<font_name>.AppleSystemUIFont</font_name>
@@ -530,7 +530,7 @@
 		<table>
 			<physical_name>USERS</physical_name>
 			<logical_name>ユーザターブル</logical_name>
-			<description></description>
+			<description>ユーザを管理するテーブル</description>
 			<height>170</height>
 			<width>146</width>
 			<font_name>.AppleSystemUIFont</font_name>
@@ -610,7 +610,7 @@
 		<table>
 			<physical_name>USER_ACCOUNTS</physical_name>
 			<logical_name>USER_ACCOUNT</logical_name>
-			<description></description>
+			<description>ユーザとアカウントの関連テーブル</description>
 			<height>170</height>
 			<width>183</width>
 			<font_name>.AppleSystemUIFont</font_name>
@@ -718,7 +718,7 @@
 		<table>
 			<physical_name>USER_FOLLOWS</physical_name>
 			<logical_name>NEW_TABLE</logical_name>
-			<description></description>
+			<description>フォローフォロワー関係を管理するテーブル</description>
 			<height>84</height>
 			<width>221</width>
 			<font_name>.AppleSystemUIFont</font_name>
