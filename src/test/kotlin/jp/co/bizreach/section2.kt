@@ -60,8 +60,16 @@ order by MEMBER.BIRTHDATE asc;
         // Act:
         // language=SQL
         val results = """
-select MEMBER.*
+select MEMBER.* , MEMBER_STATUS.* , MEMBER_SECURITY.*
 from MEMBER
+join MEMBER_STATUS
+on MEMBER.MEMBER_STATUS_CODE = MEMBER_STATUS.MEMBER_STATUS_CODE
+JOIN MEMBER_SECURITY
+on MEMBER.MEMBER_ID = MEMBER_SECURITY.MEMBER_ID
+order by case when (MEMBER.BIRTHDATE is null) then 1 else 0 end asc, 
+         MEMBER.BIRTHDATE desc, 
+         MEMBER.MEMBER_ID asc;
+
         """.fetch()
 
         // Assert:
