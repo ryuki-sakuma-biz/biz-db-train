@@ -321,7 +321,7 @@
 			<indexes>
 				<index>
 					<name>UQ_TWEET_IMAGES_TWEET_ID_IMAGE_PATH</name>
-					<type>BTREE</type>
+					<type></type>
 					<non_unique>true</non_unique>
 					<columns>
 						<column>
