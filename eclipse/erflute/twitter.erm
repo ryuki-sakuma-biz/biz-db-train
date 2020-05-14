@@ -434,7 +434,7 @@
 		</table>
 		<table>
 			<physical_name>TWEET_REPLIES</physical_name>
-			<logical_name>NEW_TABLE</logical_name>
+			<logical_name>TWEET_REPLIES</logical_name>
 			<description>ユーザがどのツイート・リツイート・リプに対して返信をしたか管理するテーブル&#x0A;typeとreply_parent_idで返信先が決まる&#x0A;reply_parent_idのdescに例がある</description>
 			<height>174</height>
 			<width>193</width>
@@ -814,8 +814,8 @@
 			</table_properties>
 		</table>
 		<table>
-			<physical_name>USER_RETWEET</physical_name>
-			<logical_name>NEW_TABLE</logical_name>
+			<physical_name>USER_RETWEETS</physical_name>
+			<logical_name>USER_RETWEETS</logical_name>
 			<description>ユーザがどのツイートに対してリツイートをしたのかを管理するテーブル</description>
 			<height>138</height>
 			<width>181</width>
@@ -832,7 +832,7 @@
 				<relationship>
 					<name>FK_USER_RETWEET_USERS</name>
 					<source>table.USERS</source>
-					<target>table.USER_RETWEET</target>
+					<target>table.USER_RETWEETS</target>
 					<fk_columns>
 						<fk_column>
 							<fk_column_name>user_id</fk_column_name>
@@ -847,7 +847,7 @@
 				<relationship>
 					<name>FK_USER_RETWEET_TWIEETS</name>
 					<source>table.TWEETS</source>
-					<target>table.USER_RETWEET</target>
+					<target>table.USER_RETWEETS</target>
 					<fk_columns>
 						<fk_column>
 							<fk_column_name>tweet_id</fk_column_name>
@@ -898,10 +898,10 @@
 					<type></type>
 					<columns>
 						<column>
-							<column_id>table.USER_RETWEET.user_id</column_id>
+							<column_id>table.USER_RETWEETS.user_id</column_id>
 						</column>
 						<column>
-							<column_id>table.USER_RETWEET.tweet_id</column_id>
+							<column_id>table.USER_RETWEETS.tweet_id</column_id>
 						</column>
 					</columns>
 				</index>
